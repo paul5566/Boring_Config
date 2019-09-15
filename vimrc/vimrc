@@ -1,0 +1,146 @@
+"* use dark background *
+set t_Co=256
+set background=dark
+syntax on
+"colorscheme dark_plus
+colorscheme codedark
+
+"* enable rower *
+set cursorline
+
+"* use UTF-8 *
+set enc=utf8
+set fileencodings=utf-8,cp950
+
+"* marked the keyword *
+set hls
+
+"* disable mouse under insert mode*
+set mouse=nv
+
+"* display line number *
+set number
+set relativenumber
+
+"* ignore capital letter while searching *
+set ic
+
+"* the indent tap *
+set tabstop=8
+set shiftwidth=8
+
+"* disable auto-indent *
+set noautoindent
+
+"* paste mode setting *
+set pastetoggle=<F12>
+
+"* for linux kernel suggestion *
+" 80 characters line
+set colorcolumn=81
+execute "set colorcolumn=" . join(range(81,335), ',')
+highlight ColorColumn ctermbg=Black ctermfg=DarkRed
+
+"* vim folding *
+set foldmarker={{{,}}}
+set foldmethod=marker
+set foldlevel=0
+let php_folding=1
+set foldnestmax=3
+
+set confirm
+set history=100
+
+set statusline=%4*%<\%m%<[%f\%r%h%w]\ [%{&ff},%{&fileencoding},%Y]%=\[Position=%l,%v,%p%%]
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
+set statusline+=%#warningmsg#
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+" ==================================
+" ===                            ===
+" === Vundle plugin install tool ===
+" ===                            ===
+" ==================================
+set nocompatible              " be iMproved, required
+filetype off                  " required
+"* set the runtime path to include Vundle and initialize *
+set rtp+=~/.vim/bundle/Vundle.vim
+
+"====================================================================
+" Start vundle
+"====================================================================
+call vundle#begin()
+
+"* The Vundle *
+Plugin 'VundleVim/Vundle.vim'
+
+"===============================================================
+" Write your plugins here
+"===============================================================
+source ~/.vundlerc
+
+"===============================================================
+" vundle plugins end
+"===============================================================
+call vundle#end()
+filetype on
+
+" The airline theme
+let g:airline_theme='deus'
+
+"* The TagBar plugin on F9 *
+nmap <f9> :TagbarToggle<CR>
+let g:tagbar_left=1 "leftside
+let g:tagbar_width=25 "width=25
+
+"* The NERDtree plugin on F8 *
+map <f8> :NERDTreeToggle<CR>
+let NERDTreeWinPos="right"
+
+" Ag vim "
+let g:ag_prg="ag --vimgrep"
+set runtimepath^=~/.vim/bundle/ag
+
+"* TO_DO & FIX_ME list *
+command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
+
+"* Go highlight *
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_version_warning = 0
+
+"* Go hotkey *
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+" To solve vim-8.0 cannot use backspace
+set backspace=indent,eol,start
+
+if has("autocmd")
+    autocmd BufRead *.txt set tw=78
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal g'\"" |
+    \ endif
+endif
+
+highlight ExtraWhitespace ctermbg=darkred guibg=darkcyan
+autocmd BufEnter * if &ft != 'help' | match ExtraWhitespace /\s\+$/ | endif
+autocmd BufEnter * if &ft == 'help' | match none /\s\+$/ | endif
+
+" vim-note
+filetype plugin on
+let g:notes_directories = ['~/Documents/Notes']
+let g:notes_suffix = '.txt'
+let g:notes_word_boundaries = 1
